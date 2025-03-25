@@ -1,7 +1,6 @@
 # DockMasterCLI
-DockMaster/
-├── README.md
-├── commands.sh (or .ps1 for PowerShell)
+
+├── commands.sh
 │   ├── # Start containers
 │   ├── # Stop containers  
 │   ├── # Version management
