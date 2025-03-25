@@ -1,0 +1,74 @@
+# ===== BASIC CONTAINER OPERATIONS =====
+
+# See ALL containers (running and stopped)
+docker ps -a
+
+# See only running containers
+docker ps
+
+# Start Redis container in background (-d) with port mapping
+docker run -d --name redis-latest -p 6379:6379 redis
+
+# Oops! Forgot to detach (-d) - CTRL+C then:
+docker stop redis-latest
+docker rm redis-latest
+docker run -d --name redis-latest -p 6379:6379 redis
+
+# Stop a container
+docker stop redis-latest
+
+# Start it again
+docker start redis-latest
+
+# Remove a stopped container
+docker rm redis-latest
+
+# Force remove (running or stopped)
+docker rm -f redis-latest
+
+# ===== MULTIPLE VERSIONS =====
+
+# Run Redis 6.2.7 on different port
+docker run -d --name redis-old -p 6378:6379 redis:6.2.7
+
+# Verify both running
+docker ps
+
+# ===== MESSY REAL-WORLD SCENARIO =====
+
+# Accidentally create unnamed containers
+docker run -p 7777:6379 redis
+# (CTRL+C kills it)
+
+# See the stopped container
+docker ps -a
+# CONTAINER ID   IMAGE  COMMAND  CREATED  STATUS   NAMES
+# 4a86bd5aa10b   redis  "docker-entrypoint..."   Exited (0)   quirky_banana
+
+# Clean up
+docker rm 4a86bd5aa10b
+
+# ===== PORT CONFLICTS =====
+
+# Try to reuse port 6379
+docker run -d --name redis2 -p 6379:6379 redis
+# Error: port already allocated
+
+# Solution: Use different port
+docker run -d --name redis2 -p 6380:6379 redis
+
+# ===== PERSISTENT STORAGE =====
+
+# Redis with persistent data
+docker run -d --name redis-persistent -p 6479:6379 -v redis_data:/data redis redis-server --appendonly yes
+
+# ===== NUCLEAR OPTION =====
+
+# Stop ALL containers
+docker stop $(docker ps -q)
+
+# Remove ALL containers
+docker rm $(docker ps -aq)
+
+# Remove ALL unused images
+docker image prune -a
