@@ -3,8 +3,34 @@
 # See ALL containers (running and stopped)
 docker ps -a
 
+PS C:\Users\user> docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS 
+                   NAMES
+a54ee029dcdb   redis:6.2.7    "docker-entrypoint.s…"   17 minutes ago   Exited (0) 19 seconds ago
+                   redis-old
+5c1d9c923414   eedaff45e3c7   "/docker-entrypoint.…"   20 minutes ago   Created
+                   redis-6.2.7
+c703c581a1c3   redis          "docker-entrypoint.s…"   22 minutes ago   Up 22 minutes               0.0.0.
+0:6379->6379/tcp   redis-latest
+d0b5e8bba4f0   redis          "docker-entrypoint.s…"   28 minutes ago   Exited (0) 22 minutes ago
+                   distracted_rhodes
+d8d306cc91c3   redis          "docker-entrypoint.s…"   29 minutes ago   Exited (1) 29 minutes ago
+                   jolly_merkle
+
+
+
 # See only running containers
 docker ps
+
+PS C:\Users\user> docker ps    
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS
+      NAMES
+a54ee029dcdb   redis:6.2.7   "docker-entrypoint.s…"   16 minutes ago   Up 16 minutes   0.0.0.0:6378->6379/
+tcp   redis-old
+c703c581a1c3   redis         "docker-entrypoint.s…"   21 minutes ago   Up 21 minutes   0.0.0.0:6379->6379/
+tcp   redis-latest
+
+
 
 # Start Redis container in background (-d) with port mapping
 docker run -d --name redis-latest -p 6379:6379 redis
@@ -16,6 +42,9 @@ docker run -d --name redis-latest -p 6379:6379 redis
 
 # Stop a container
 docker stop redis-latest
+
+PS C:\Users\user> docker stop a54ee029dcdb
+a54ee029dcdb
 
 # Start it again
 docker start redis-latest
@@ -72,3 +101,419 @@ docker rm $(docker ps -aq)
 
 # Remove ALL unused images
 docker image prune -a
+
+
+
+
+#=============
+
+# Command to see all the details of an image 
+docker inspect imageid
+
+PS C:\Users\user> docker images
+REPOSITORY                 TAG       IMAGE ID       CREATED         SIZE
+redis                      latest    bd41d55aae1e   2 months ago    173MB
+docker/welcome-to-docker   latest    eedaff45e3c7   16 months ago   29.5MB
+redis                      6.2.7     a93c14584715   2 years ago     166MB
+PS C:\Users\user>
+PS C:\Users\user>
+PS C:\Users\user> docker inspect bd41d55aae1e
+[
+    {
+        "Id": "sha256:bd41d55aae1ecff61b2fafd0d66761223fe94a60373eb6bb781cfbb570a84079",
+        "RepoTags": [
+            "redis:latest"
+        ],
+        "RepoDigests": [
+            "redis@sha256:bd41d55aae1ecff61b2fafd0d66761223fe94a60373eb6bb781cfbb570a84079"
+        ],
+        "Parent": "",
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2025-01-06T16:14:31Z",
+        "DockerVersion": "27.4.0",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "6379/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "GOSU_VERSION=1.17",
+                "REDIS_VERSION=7.4.2",
+                "REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-7.4.2.tar.gz",
+                "REDIS_DOWNLOAD_SHA=4ddebbf09061cbb589011786febdb34f29767dd7f89dbe712d2b68e808af6a1f"     
+            ],
+            "Cmd": [
+                "redis-server"
+            ],
+            "Image": "",
+            "Volumes": {
+                "/data": {}
+            },
+            "WorkingDir": "/data",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 44999260,
+        "GraphDriver": {
+            "Data": null,
+            "Name": "overlayfs"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:1287fbecdfcce6ee8cf2436e5b9e9d86a4648db2d91080377d499737f1b307f3",
+                "sha256:40e3f2f07f478b0ce928b68165b4de343d32f2917d574cebcbdcc323c0f71aa3",
+                "sha256:2afafa4063fa83a4580946419bcb17fd7c1109691b9818c75a0893d9dbbbe2f2",
+                "sha256:ebd572a1ed1d71fdf8543815539bf103aad3193a594a85d64f8a33eb17975845",
+                "sha256:2f0051eaf9cdda36dbc23ac85e719c50a8185143bcd9bf5092f1dad6eb5d3772",
+                "sha256:d024a202e6333b89c1ab1a87bbba1907156a5c43ebd7799135d6ef562b119106",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+                "sha256:0123f118c552539d85add2b1886ef45a217fae4c62a243aa92d8e0c91270173e"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2025-03-25T15:20:44.47447519Z"
+        }
+    }
+]
+
+# Command to see details about the cointainer
+docker ps
+
+docker inspect containerId
+PS C:\Users\user> docker ps   
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS
+  NAMES
+c703c581a1c3   redis     "docker-entrypoint.s…"   28 minutes ago   Up 28 minutes   0.0.0.0:6379->6379/tcp 
+  redis-latest
+PS C:\Users\user> docker inspect c703c581a1c3
+[
+    {
+        "Id": "c703c581a1c3cb58d630184b6ec914857867f984de72c9830d16a484b54dbfa2",
+        "Created": "2025-03-25T15:53:46.207846487Z",
+        "Path": "docker-entrypoint.sh",
+        "Args": [
+            "redis-server"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 1541,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2025-03-25T15:53:46.757566461Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:bd41d55aae1ecff61b2fafd0d66761223fe94a60373eb6bb781cfbb570a84079",
+        "ResolvConfPath": "/var/lib/docker/containers/c703c581a1c3cb58d630184b6ec914857867f984de72c9830d16
+a484b54dbfa2/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/c703c581a1c3cb58d630184b6ec914857867f984de72c9830d16a4
+84b54dbfa2/hostname",
+        "HostsPath": "/var/lib/docker/containers/c703c581a1c3cb58d630184b6ec914857867f984de72c9830d16a484b
+54dbfa2/hosts",
+        "LogPath": "/var/lib/docker/containers/c703c581a1c3cb58d630184b6ec914857867f984de72c9830d16a484b54
+dbfa2/c703c581a1c3cb58d630184b6ec914857867f984de72c9830d16a484b54dbfa2-json.log",
+        "Name": "/redis-latest",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "bridge",
+            "PortBindings": {
+                "6379/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "6379"
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                11,
+                106
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware",
+                "/sys/devices/virtual/powercap"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": null,
+            "Name": "overlayfs"
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "2433ca224696c0d78a2ffd51904cd8ecb8403c23d403a1ac54af55be9a190b08",
+                "Source": "/var/lib/docker/volumes/2433ca224696c0d78a2ffd51904cd8ecb8403c23d403a1ac54af55b
+e9a190b08/_data",
+                "Destination": "/data",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "Config": {
+            "Hostname": "c703c581a1c3",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "6379/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "GOSU_VERSION=1.17",
+                "REDIS_VERSION=7.4.2",
+                "REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-7.4.2.tar.gz",
+                "REDIS_DOWNLOAD_SHA=4ddebbf09061cbb589011786febdb34f29767dd7f89dbe712d2b68e808af6a1f"     
+            ],
+            "Cmd": [
+                "redis-server"
+            ],
+            "Image": "redis",
+            "Volumes": {
+                "/data": {}
+            },
+            "WorkingDir": "/data",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "08444d7c16d0afc0fede4d1d4ccb8d198e26f42097277628e77d180af2e21f94",
+            "SandboxKey": "/var/run/docker/netns/08444d7c16d0",
+            "Ports": {
+                "6379/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "6379"
+                    }
+                ]
+            },
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "cea2efa3f04337ea3ce18d160c294cf1534db9916ee4e4416a8c382530fb785f",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "MacAddress": "02:42:ac:11:00:02",
+                    "DriverOpts": null,
+                    "NetworkID": "b0de0337f8b390cd1da58a4db1fc4bddd9a3439d444f495c16406c74c40f00d6",      
+                    "EndpointID": "cea2efa3f04337ea3ce18d160c294cf1534db9916ee4e4416a8c382530fb785f",     
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]
+
+======================================
+
+# If you want to see the logs associated with the containers
+PS C:\Users\user> docker logs c703c581a1c3
+1:C 25 Mar 2025 15:53:47.297 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 25 Mar 2025 15:53:47.297 * Redis version=7.4.2, bits=64, commit=00000000, modified=0, pid=1, just star
+1:C 25 Mar 2025 15:53:47.297 # Warning: no config file specified, using the default config. In order to sp
+ecify a config file use redis-server /path/to/redis.conf
+1:M 25 Mar 2025 15:53:47.297 * monotonic clock: POSIX clock_gettime
+1:M 25 Mar 2025 15:53:47.299 * Running mode=standalone, port=6379.
+1:M 25 Mar 2025 15:53:47.300 * Server initialized
+1:M 25 Mar 2025 15:53:47.300 * Ready to accept connections tcp
+1:M 25 Mar 2025 15:53:47.647 # Possible SECURITY ATTACK detected. It looks like somebody is sending POST o
+r Host: commands to Redis. This is likely due to an attacker attempting to use Cross Protocol Scripting to
+ compromise your Redis instance. Connection from 172.17.0.1:38896 aborted.
+PS C:\Users\user> docker logs c703c581a1c3
+1:C 25 Mar 2025 15:53:47.297 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 25 Mar 2025 15:53:47.297 * Redis version=7.4.2, bits=64, commit=00000000, modified=0, pid=1, just star
+ted
+1:C 25 Mar 2025 15:53:47.297 # Warning: no config file specified, using the default config. In order to sp
+ecify a config file use redis-server /path/to/redis.conf
+1:M 25 Mar 2025 15:53:47.297 * monotonic clock: POSIX clock_gettime
+1:M 25 Mar 2025 15:53:47.299 * Running mode=standalone, port=6379.
+1:M 25 Mar 2025 15:53:47.300 * Server initialized
+1:M 25 Mar 2025 15:53:47.300 * Ready to accept connections tcp
+1:M 25 Mar 2025 15:53:47.647 # Possible SECURITY ATTACK detected. It looks like somebody is sending POST o
+r Host: commands to Redis. This is likely due to an attacker attempting to use Cross Protocol Scripting to
+ compromise your Redis instance. Connection from 172.17.0.1:38896 aborted.
+1:M 25 Mar 2025 16:25:18.757 # Possible SECURITY ATTACK detected. It looks like somebody is sending POST o
+r Host: commands to Redis. This is likely due to an attacker attempting to use Cross Protocol Scripting to
+ compromise your Redis instance. Connection from 172.17.0.1:45152 aborted.
+PS C:\Users\user>
+
+
+-=========================
+## if you want to enter the container and perform operation 
+docker exec -it cointainerid argument
+
+PS C:\Users\user> docker exec -it c703c581a1c3 /bin/sh
+# ls
+# pwd
+/data
+# cd ../
+# ls
+bin   data  etc   lib    media  opt   root  sbin  sys  usr
+boot  dev   home  lib64  mnt    proc  run   srv   tmp  var
+# redis-cli
+127.0.0.1:6379> KEYS *
+(empty array)
+127.0.0.1:6379> exit
+# exit
+PS C:\Users\user>
+
+================
+# Command to remove an image
+docker rmi imagename
+
+================
+# Command to remove every image
+docker system prune
+PS C:\Users\user>  docker system prune
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all dangling images
+  - unused build cache
+
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+a54ee029dcdb29a088d35f568981b7b4b23d720e2c299da576c360525cb3db6e
+5c1d9c9234140c036dd8cbb7108aca9f1872f8edcb66674113605ccf79e142d6
+d0b5e8bba4f0676d19e6f8905aa0395064522cdc77c8b3c1ec52814ee87ee826
+d8d306cc91c3869c777752e587891ca5b4be3b697d783f79d7313d1a645db47f
+
+Total reclaimed space: 16.38kB
+PS C:\Users\user>
+
+=================================
+# Now, how to create our own docker image
+
